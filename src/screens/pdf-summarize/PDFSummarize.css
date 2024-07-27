@@ -1,0 +1,90 @@
+/* src/screens/PDFSummarize.css */
+
+.react-select-container {
+  width: 100%;
+  max-width: 300px;
+  margin: 1rem 0;
+}
+
+.react-select__control {
+  background-color: var(--background-color);
+  border: 1px solid var(--text-color);
+  border-radius: 8px;
+  color: var(--text-color);
+}
+
+.react-select__menu {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.react-select__option {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.react-select__option--is-selected {
+  background-color: var(--accent-color);
+}
+
+.react-select__option--is-focused {
+  background-color: rgba(168, 85, 247, 0.1);
+}
+
+.react-select__single-value {
+  color: var(--text-color);
+}
+
+/* Other existing styles */
+.cta-button {
+  background-color: var(--cta-color);
+  color: var(--background-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.cta-button:hover {
+  background-color: #f59e0b;
+}
+
+.response-section {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.response-section h2 {
+  margin-bottom: 1rem;
+}
+
+.response-section p {
+  margin-bottom: 1rem;
+}
+
+.upload-section {
+  margin-top: 2rem;
+}
+
+.custom-file-upload {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.custom-file-upload:hover {
+  background-color: #9333ea;
+}
+
+input[type="file"] {
+  display: none;
+}

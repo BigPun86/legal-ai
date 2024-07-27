@@ -1,0 +1,48 @@
+/* src/screens/Home.css */
+.home {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero .highlight {
+  color: var(--accent-color);
+}
+
+.hero .subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.about,
+.features,
+.contact {
+  margin-bottom: 4rem;
+}
+
+.features .feature-grid {
+  display: flex;
+  justify-content: space-between;
+}
+
+.features .feature-item {
+  width: 30%;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.contact a.contact-link {
+  color: var(--accent-color);
+  text-decoration: none;
+}
