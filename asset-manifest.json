@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/legal-ai/static/css/main.187af479.css",
+    "main.js": "/legal-ai/static/js/main.b306693e.js",
+    "static/js/453.ae21ea24.chunk.js": "/legal-ai/static/js/453.ae21ea24.chunk.js",
+    "index.html": "/legal-ai/index.html",
+    "main.187af479.css.map": "/legal-ai/static/css/main.187af479.css.map",
+    "main.b306693e.js.map": "/legal-ai/static/js/main.b306693e.js.map",
+    "453.ae21ea24.chunk.js.map": "/legal-ai/static/js/453.ae21ea24.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.187af479.css",
+    "static/js/main.b306693e.js"
+  ]
+}
