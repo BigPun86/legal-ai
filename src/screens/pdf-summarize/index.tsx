@@ -6,7 +6,7 @@ import apiInstance from "../../api";
 import Modal from "../../components/modal";
 import "./PDFSummarize.css"; // Ensure to include the custom CSS
 
-type Choice = {
+type IChoice = {
   message: {
     content: string;
   };
@@ -15,7 +15,7 @@ type Choice = {
 const PDFSummarize: React.FC = () => {
   const [pdfText, setPdfText] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [chatGPTResponse, setChatGPTResponse] = useState<Choice[]>([]);
+  const [chatGPTResponse, setChatGPTResponse] = useState<IChoice[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [models, setModels] = useState<{ value: string; label: string }[]>([]);
