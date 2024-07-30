@@ -16,6 +16,7 @@ export function loadPdfJs() {
   pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
   return pdfjs;
 }
+
 loadPdfJs();
 
 const App: React.FC = () => {
