@@ -11,6 +11,7 @@ import Footer from "./components/footer";
 import Pricing from "./screens/pricing";
 
 import "./App.css";
+import ErrorBoundary from "./components/error-boundary";
 
 export function loadPdfJs() {
   const src = new URL("pdfjs-dist/build/pdf.worker.js", import.meta.url);
@@ -23,15 +24,17 @@ loadPdfJs();
 
 const App: React.FC = () => {
   return (
-    <>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/summarize" element={<PDFSummarize />} />
-        <Route path="/pricing" element={<Pricing />} />
-      </Routes>
-      <Footer />
-    </>
+    <ErrorBoundary>
+      <>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/summarize" element={<PDFSummarize />} />
+          <Route path="/pricing" element={<Pricing />} />
+        </Routes>
+        <Footer />
+      </>
+    </ErrorBoundary>
   );
 };
 

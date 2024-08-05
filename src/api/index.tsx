@@ -1,11 +1,12 @@
 import axios from "axios";
+import { OPEN_AI } from "../config";
 
 const apiInstance = axios.create({
-  baseURL: import.meta.env.VITE_OPENAI_API_URL, // This will be proxied to the target server => check vite.config.ts
+  baseURL: OPEN_AI.API_URL, //"http://localhost:3000/api/proxy", // This will be proxied to the target server => check vite.config.ts
   headers: {
-    Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+    Authorization: `Bearer ${OPEN_AI.API_KEY}`,
     "Content-Type": "application/json",
-    "OpenAI-Project": import.meta.env.VITE_OPENAI_PROJECT_ID,
+    "OpenAI-Project": OPEN_AI.PROJECT_ID,
   },
 });
 

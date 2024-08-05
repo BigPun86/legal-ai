@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import * as pdfjs from "pdfjs-dist";
 import Select from "react-select";
+import axios from "axios";
 
-import apiInstance from "../../api";
 import Modal from "../../components/modal";
 import "./PDFSummarize.css"; // Ensure to include the custom CSS
 
@@ -24,21 +24,33 @@ const PDFSummarize: React.FC = () => {
     label: string;
   }>({ value: "gpt-3.5-turbo", label: "gpt-3.5-turbo" });
 
-  useEffect(() => {
-    const fetchModels = async () => {
-      try {
-        const response = await apiInstance("/models");
-        const modelsData = response.data.data.map((model: any) => ({
-          value: model.id,
-          label: model.id,
-        }));
-        setModels(modelsData);
-      } catch (error: any) {
-        console.error("Fehler beim Abrufen der Modelle:", error);
-        setError("Fehler beim Abrufen der KI-Modelle: " + error.message);
-      }
-    };
+  const fetchModels = async () => {
+    try {
+      setError("");
 
+      // const response = await apiInstance("/models");
+      const url = "https://api.openai.com/v1/models";
+
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+          "Content-Type": "application/json",
+          "OpenAI-Project": process.env.REACT_APP_OPENAI_PROJECT_ID,
+        },
+      });
+
+      const modelsData = response.data.data.map((model: any) => ({
+        value: model.id,
+        label: model.id,
+      }));
+      setModels(modelsData);
+    } catch (error: any) {
+      console.error("Fehler beim Abrufen der Modelle:", error);
+      setError("Fehler beim Abrufen der KI-Modelle: " + error.message);
+    }
+  };
+
+  useEffect(() => {
     fetchModels();
   }, []);
 
@@ -71,23 +83,23 @@ const PDFSummarize: React.FC = () => {
   };
 
   const sendToChatGPT = async () => {
-    setLoading(true);
+    /* setLoading(true);
     setError("");
     try {
-      const params = {
-        model: selectedModel.value,
-        messages: [
-          {
-            role: "user",
-            content: "Fasse mir bitte folgendes Urteil zusammen:" + pdfText,
-          },
-        ],
-        max_tokens: 100,
-        /*  max_tokens: 100,
-        temperature: 0.7, */
-      };
-
-      const response = await apiInstance.post("/chat/completions", params);
+      const response = await apiInstance.post("/chat/completions", {
+        data: {
+          model: selectedModel.value,
+          messages: [
+            {
+              role: "user",
+              content: "Fasse mir bitte folgendes Urteil zusammen:" + pdfText,
+            },
+          ],
+          max_tokens: import.meta.env.DEV && 100,
+          // max_tokens: 100,
+          // temperature: 0.7,
+        },
+      });
       setChatGPTResponse(response.data.choices);
     } catch (error: any) {
       console.error("Fehler beim Aufrufen der ChatGPT API:", error);
@@ -96,7 +108,7 @@ const PDFSummarize: React.FC = () => {
           (error.response?.data?.error?.message || error.message)
       );
     }
-    setLoading(false);
+    setLoading(false); */
   };
 
   function handleOpenModal(): void {
@@ -142,6 +154,15 @@ const PDFSummarize: React.FC = () => {
             onChange={handleFileUpload}
           />
         </div>
+
+        <button
+          onClick={fetchModels}
+          disabled={loading}
+          className="cta-button"
+          style={{ opacity: loading ? 0.5 : 1 }}
+        >
+          {loading ? "Models werden geladen..." : "Modelle laden"}
+        </button>
 
         {error && <p className="error">{error}</p>}
 
