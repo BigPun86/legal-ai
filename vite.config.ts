@@ -2,6 +2,9 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import viteTsconfigPaths from "vite-tsconfig-paths";
 import path from "path";
+import { config } from "dotenv";
+
+config();
 
 export default defineConfig(({ mode }) => {
   // Load env file based on `mode`
@@ -9,7 +12,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     // depending on your application, base can also be "/"
-    base: "",
+    base: "/legal-ai/",
     plugins: [react(), viteTsconfigPaths()],
     server: {
       // this ensures that the browser opens upon server start
@@ -18,7 +21,7 @@ export default defineConfig(({ mode }) => {
       port: 1337,
     },
     define: {
-      "process.env": {},
+      "process.env": process.env,
     },
     resolve: {
       alias: {

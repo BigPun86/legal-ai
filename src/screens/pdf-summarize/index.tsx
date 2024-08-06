@@ -33,9 +33,9 @@ const PDFSummarize: React.FC = () => {
 
       const response = await axios.get(url, {
         headers: {
-          Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+          Authorization: `Bearer ${import.meta.env.REACT_APP_OPENAI_API_KEY}`,
           "Content-Type": "application/json",
-          "OpenAI-Project": process.env.REACT_APP_OPENAI_PROJECT_ID,
+          "OpenAI-Project": import.meta.env.REACT_APP_OPENAI_PROJECT_ID,
         },
       });
 
@@ -124,8 +124,17 @@ const PDFSummarize: React.FC = () => {
         <h1>
           <span className="highlight">KI-Anwalt:</span> dein persönlicher
           <br />
+          ENV TEST: {import.meta.env.REACT_APP_OPENAI_API_URL}
+          ENV TEST: {import.meta.env.REACT_APP_OPENAI_API_KEY}
+          ENV TEST: {import.meta.env.REACT_APP_OPENAI_PROJECT_ID}
+        </h1>
+
+        <h1>
+          <span className="highlight">KI-Anwalt:</span> dein persönlicher
+          <br />
           KI-Rechtsassistent
         </h1>
+
         <div className="two-column">
           <div className="column">
             <h3>für Verbraucher:</h3>

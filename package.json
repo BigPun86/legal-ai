@@ -5,6 +5,7 @@
   "homepage": "https://bigpun86.github.io/legal-ai",
   "type": "module",
   "scripts": {
+    "prebuild": "node check-version.js",
     "start": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
@@ -17,7 +18,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
-    "@types/node": "^22.0.0",
+    "@types/node": "^22.1.0",
     "@types/pdf-parse": "^1.1.4",
     "@types/pdfjs-dist": "^2.10.378",
     "@types/react": "^18.3.3",
@@ -64,5 +65,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
