@@ -25,9 +25,9 @@ jobs:
       - name: Build project
         run: npm run build
         env:
-          REACT_APP_OPENAI_API_URL: ${{ vars.REACT_APP_OPENAI_API_URL }}
-          REACT_APP_OPENAI_API_KEY: ${{ vars.REACT_APP_OPENAI_API_KEY }}
-          REACT_APP_OPENAI_PROJECT_ID: ${{ vars.REACT_APP_OPENAI_PROJECT_ID }}
+          VITE_OPENAI_API_URL: ${{ vars.VITE_OPENAI_API_URL }}
+          VITE_OPENAI_API_KEY: ${{ secrets.VITE_OPENAI_API_KEY }}
+          VITE_OPENAI_PROJECT_ID: ${{ vars.VITE_OPENAI_PROJECT_ID }}
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2

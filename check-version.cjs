@@ -3,25 +3,25 @@ const packageJson = require("./package.json");
 
 const currentVersion = packageJson.version;
 let [major, minor, patch] = currentVersion.split(".");
-major = parseInt(major);
-minor = parseInt(minor);
-patch = parseInt(patch);
+major = String(parseInt(major));
+minor = String(parseInt(minor));
+patch = String(parseInt(patch));
 
 let newVersion = "";
 
-if (patch === 9) {
-  let newPatch = 0;
-  let newMinor = minor + 1;
+if (patch === "9") {
+  let newPatch = "0";
+  let newMinor = String(parseInt(minor) + 1);
   let newMajor = major;
 
-  if (newMinor > 9) {
-    newMinor = 0;
-    newMajor = major + 1;
+  if (newMinor > "9") {
+    newMinor = "0";
+    newMajor = String(parseInt(major) + 1);
   }
 
   newVersion = `${newMajor}.${newMinor}.${newPatch}`;
 } else {
-  let newPatch = patch + 1;
+  let newPatch = String(parseInt(patch) + 1);
   let newMinor = minor;
   let newMajor = major;
 

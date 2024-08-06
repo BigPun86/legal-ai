@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     // depending on your application, base can also be "/"
-    base: "/legal-ai/",
+    base: "",
     plugins: [react(), viteTsconfigPaths()],
     server: {
       // this ensures that the browser opens upon server start

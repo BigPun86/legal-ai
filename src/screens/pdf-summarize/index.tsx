@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import * as pdfjs from "pdfjs-dist";
+import debounce from "lodash.debounce";
 import Select from "react-select";
-import axios from "axios";
 
+import apiInstance from "../../api";
 import Modal from "../../components/modal";
+
 import "./PDFSummarize.css"; // Ensure to include the custom CSS
 
 type IChoice = {
@@ -24,20 +27,16 @@ const PDFSummarize: React.FC = () => {
     label: string;
   }>({ value: "gpt-3.5-turbo", label: "gpt-3.5-turbo" });
 
+  const debouncedLogHi = debounce(toast, 1500);
+
+  const updateError = (ctx: string, msg: string) =>
+    debouncedLogHi(ctx + " | " + msg);
+
   const fetchModels = async () => {
     try {
       setError("");
 
-      // const response = await apiInstance("/models");
-      const url = "https://api.openai.com/v1/models";
-
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${import.meta.env.REACT_APP_OPENAI_API_KEY}`,
-          "Content-Type": "application/json",
-          "OpenAI-Project": import.meta.env.REACT_APP_OPENAI_PROJECT_ID,
-        },
-      });
+      const response = await apiInstance("/models");
 
       const modelsData = response.data.data.map((model: any) => ({
         value: model.id,
@@ -47,6 +46,7 @@ const PDFSummarize: React.FC = () => {
     } catch (error: any) {
       console.error("Fehler beim Abrufen der Modelle:", error);
       setError("Fehler beim Abrufen der KI-Modelle: " + error.message);
+      updateError("fetchModels", error.message);
     }
   };
 
@@ -78,27 +78,29 @@ const PDFSummarize: React.FC = () => {
         setError(
           "Fehler beim Lesen der PDF-Datei. Bitte versuchen Sie es erneut."
         );
+        updateError(
+          "handleFileUpload",
+          "Fehler beim Lesen der PDF-Datei. Bitte versuchen Sie es erneut."
+        );
       }
     }
   };
 
   const sendToChatGPT = async () => {
-    /* setLoading(true);
+    setLoading(true);
     setError("");
     try {
       const response = await apiInstance.post("/chat/completions", {
-        data: {
-          model: selectedModel.value,
-          messages: [
-            {
-              role: "user",
-              content: "Fasse mir bitte folgendes Urteil zusammen:" + pdfText,
-            },
-          ],
-          max_tokens: import.meta.env.DEV && 100,
-          // max_tokens: 100,
-          // temperature: 0.7,
-        },
+        model: selectedModel.value || "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "user",
+            content: "Fasse mir bitte folgendes Urteil zusammen:" + pdfText,
+          },
+        ],
+        // max_tokens: import.meta.env.DEV && 100,
+        // max_tokens: 100,
+        // temperature: 0.7,
       });
       setChatGPTResponse(response.data.choices);
     } catch (error: any) {
@@ -107,8 +109,13 @@ const PDFSummarize: React.FC = () => {
         "Fehler: Konnte keine Antwort von ChatGPT erhalten. " +
           (error.response?.data?.error?.message || error.message)
       );
+      updateError(
+        "sendToChatGPT",
+        "Fehler: Konnte keine Antwort von ChatGPT erhalten. " +
+          (error.response?.data?.error?.message || error.message)
+      );
     }
-    setLoading(false); */
+    setLoading(false);
   };
 
   function handleOpenModal(): void {
@@ -124,16 +131,42 @@ const PDFSummarize: React.FC = () => {
         <h1>
           <span className="highlight">KI-Anwalt:</span> dein persönlicher
           <br />
-          ENV TEST: {import.meta.env.REACT_APP_OPENAI_API_URL}
-          ENV TEST: {import.meta.env.REACT_APP_OPENAI_API_KEY}
-          ENV TEST: {import.meta.env.REACT_APP_OPENAI_PROJECT_ID}
-        </h1>
-
-        <h1>
-          <span className="highlight">KI-Anwalt:</span> dein persönlicher
-          <br />
           KI-Rechtsassistent
         </h1>
+
+        <section>
+          <br />
+          {import.meta.env.VITE_OPENAI_API_URL}
+          <br />
+          {import.meta.env.VITE_OPENAI_API_KEY.substring(0, 10) + "..."}
+          <br />
+          {import.meta.env.VITE_OPENAI_PROJECT_ID}
+        </section>
+
+        <button
+          onClick={fetchModels}
+          disabled={loading}
+          className="cta-button"
+          style={{ opacity: loading ? 0.5 : 1 }}
+        >
+          {loading ? "Models werden geladen..." : "Modelle laden"}
+        </button>
+
+        {models.length > 0 && (
+          <div className="model-select">
+            <label htmlFor="model-select">Wähle ein Modell:</label>
+            <Select
+              id="model-select"
+              value={selectedModel}
+              onChange={(newValue) =>
+                setSelectedModel(newValue as { value: string; label: string })
+              }
+              options={models}
+              className="react-select-container"
+              classNamePrefix="react-select"
+            />
+          </div>
+        )}
 
         <div className="two-column">
           <div className="column">
@@ -164,15 +197,6 @@ const PDFSummarize: React.FC = () => {
           />
         </div>
 
-        <button
-          onClick={fetchModels}
-          disabled={loading}
-          className="cta-button"
-          style={{ opacity: loading ? 0.5 : 1 }}
-        >
-          {loading ? "Models werden geladen..." : "Modelle laden"}
-        </button>
-
         {error && <p className="error">{error}</p>}
 
         {pdfText && (
@@ -182,27 +206,6 @@ const PDFSummarize: React.FC = () => {
             <button onClick={handleOpenModal} className="cta-button">
               Vorschau
             </button>
-          </div>
-        )}
-
-        <Modal show={isModalOpen} handleClose={handleCloseModal}>
-          <h2>Vollständiger Text</h2>
-          <p>{pdfText}</p>
-        </Modal>
-
-        {models.length > 0 && (
-          <div className="model-select">
-            <label htmlFor="model-select">Wähle ein Modell:</label>
-            <Select
-              id="model-select"
-              value={selectedModel}
-              onChange={(newValue) =>
-                setSelectedModel(newValue as { value: string; label: string })
-              }
-              options={models}
-              className="react-select-container"
-              classNamePrefix="react-select"
-            />
           </div>
         )}
 
@@ -224,6 +227,11 @@ const PDFSummarize: React.FC = () => {
             </div>
           ))}
       </main>
+
+      <Modal show={isModalOpen} handleClose={handleCloseModal}>
+        <h2>Vollständiger Text</h2>
+        <p>{pdfText}</p>
+      </Modal>
     </div>
   );
 };

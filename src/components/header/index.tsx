@@ -1,12 +1,15 @@
 // src/components/Navigation.tsx
 import React from "react";
 import { Link } from "react-router-dom";
+import packageJson from "../../../package.json";
+
+const currentVersion = packageJson.version;
 
 const Header: React.FC = () => {
   return (
     <header className="header">
       <Link to="/" className="logo">
-        KI Anwalt
+        KI Anwalt {currentVersion}
       </Link>
       <nav>
         <ul>

@@ -3,6 +3,9 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import * as pdfjs from "pdfjs-dist";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Home from "./screens/home";
 import PDFSummarize from "./screens/pdf-summarize";
 
@@ -34,6 +37,7 @@ const App: React.FC = () => {
         </Routes>
         <Footer />
       </>
+      <ToastContainer />
     </ErrorBoundary>
   );
 };
